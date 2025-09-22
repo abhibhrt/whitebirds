@@ -18,6 +18,7 @@ import NotFound from "@/app/not-found";
 import api from "@/utils/axios";
 import { useAlert } from "@/components/Alert";
 import Image from "next/image";
+import { AxiosError } from "axios";
 
 interface Image {
   id: number;
@@ -107,18 +108,13 @@ const ProductDetails: React.FC = () => {
     } catch (err: unknown) {
       let errorMessage = "Error adding to cart";
 
-      if (
-        typeof err === "object" &&
-        err !== null &&
-        "response" in err &&
-        (err as any).response?.data?.error
-      ) {
-        errorMessage = (err as any).response.data.error;
+      if (err instanceof AxiosError) {
+        errorMessage = err.response?.data?.error || errorMessage;
       }
 
       showAlert(errorMessage, "warning");
     }
-  };
+  }
 
   const buyNow = () => alert(`Proceeding to buy ${quantity} ${product.title}!`);
 
@@ -178,11 +174,10 @@ const ProductDetails: React.FC = () => {
               {product.images.map((img, index) => (
                 <div
                   key={index}
-                  className={`h-20 w-20 rounded-md overflow-hidden cursor-pointer border-2 transition-all ${
-                    selectedImage === index
-                      ? "border-primary"
-                      : "border-secondary"
-                  }`}
+                  className={`h-20 w-20 rounded-md overflow-hidden cursor-pointer border-2 transition-all ${selectedImage === index
+                    ? "border-primary"
+                    : "border-secondary"
+                    }`}
                   onClick={() => handleImageChange(index)}
                 >
                   <Image
@@ -299,9 +294,8 @@ const ProductDetails: React.FC = () => {
 
               <div className="flex items-start">
                 <FiRefreshCw
-                  className={`text-2xl mt-1 mr-3 ${
-                    product.returnable > 0 ? "text-success" : "text-error"
-                  }`}
+                  className={`text-2xl mt-1 mr-3 ${product.returnable > 0 ? "text-success" : "text-error"
+                    }`}
                 />
                 <div>
                   <h3 className="font-semibold text-primary">
