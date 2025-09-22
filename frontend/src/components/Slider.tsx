@@ -1,8 +1,8 @@
 "use client";
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
-// Dummy data for the slider
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
+
 const sliderData = [
   {
     id: 1,
@@ -35,7 +35,7 @@ const sliderData = [
 ];
 
 // Animation variants for per-letter drop
-const container = {
+const container: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -45,12 +45,12 @@ const container = {
   },
 };
 
-const letter = {
+const letter: Variants = {
   hidden: { y: -100, opacity: 0 },
   visible: {
     y: 0,
     opacity: 0.8,
-    transition: { type: "spring", stiffness: 300, damping: 20 },
+    transition: { type: "spring" as const, stiffness: 300, damping: 20 },
   },
 };
 
@@ -139,9 +139,7 @@ const Slider = () => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide ? "bg-primary scale-125" : "bg-primary/30"
-            }`}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? "bg-primary scale-125" : "bg-primary/30"}`}
           />
         ))}
       </div>
