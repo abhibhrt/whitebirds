@@ -14,6 +14,7 @@ import {
 } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useAuthStore } from "@/zustand/authStore";
+import { RootState } from "@/redux/store";
 
 interface NavItem {
   name: string;
@@ -34,7 +35,7 @@ const Navbar = () => {
 
   const pathname = usePathname();
   const { openSignin } = useAuthStore();
-  const user = useSelector((state: any) => state.user?.user);
+  const user = useSelector((state: RootState) => state.user?.user);
 
   const navItems: NavItem[] = [
     { name: "Home", path: "/" },

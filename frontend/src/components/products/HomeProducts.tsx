@@ -146,7 +146,7 @@ export default function HomeProducts() {
 
       {!hasMore && memoProducts.length > 0 && (
         <div className="text-center py-2 text-secondary">
-          You've reached the end of products
+          You&apos;ve reached the end of products
         </div>
       )}
     </div>

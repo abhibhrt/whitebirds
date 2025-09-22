@@ -250,7 +250,7 @@ export default function OrdersPage() {
                     No active orders
                   </h3>
                   <p className="text-secondary">
-                    You haven't placed any orders yet.
+                    You haven&apos;t placed any orders yet.
                   </p>
                 </div>
               )}

@@ -1,16 +1,31 @@
 "use client";
+
 import { useState } from "react";
 import api from "@/utils/axios";
 import { useAlert } from "@/components/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "@/redux/private/userSlice";
+import { RootState } from "@/redux/store"; // make sure RootState is exported from store
+
+type Address = {
+  state: string;
+  city: string;
+  pincode: string;
+  addressLine: string;
+};
+
+type FormData = {
+  name: string;
+  mobNo: string;
+  address: Address;
+};
 
 export default function UpdateProfile() {
-  const user = useSelector((state: any) => state.user.user);
+  const user = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: user?.name || "",
     mobNo: user?.mobNo || "",
     address: {
@@ -22,10 +37,16 @@ export default function UpdateProfile() {
   });
   const { showAlert, AlertComponent } = useAlert();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field?: string) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field?: keyof FormData | "address"
+  ) => {
     const { name, value } = e.target;
     if (field === "address") {
-      setFormData((prev) => ({ ...prev, address: { ...prev.address, [name]: value } }));
+      setFormData((prev) => ({
+        ...prev,
+        address: { ...prev.address, [name]: value },
+      }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -42,8 +63,10 @@ export default function UpdateProfile() {
       dispatch(updateUser(response.data.user));
       showAlert(response.data.message, "success");
       setIsEditing(false);
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.error || "Failed to update";
+    } catch (err: unknown) {
+      const errorMessage =
+        (err as { response?: { data?: { error?: string } } })?.response?.data
+          ?.error || "Failed to update";
       showAlert(errorMessage, "error");
     } finally {
       setIsLoading(false);
