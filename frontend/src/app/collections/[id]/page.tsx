@@ -104,14 +104,18 @@ const ProductDetails: React.FC = () => {
     try {
       await api.post("/cart", { productId: product.id });
       showAlert("Added to cart", "success");
-    } catch (err) {
-      const errorMessage =
-        err &&
+    } catch (err: unknown) {
+      let errorMessage = "Error adding to cart";
+
+      if (
         typeof err === "object" &&
+        err !== null &&
         "response" in err &&
-        err.response?.data?.error
-          ? err.response.data.error
-          : "Error adding to cart";
+        (err as any).response?.data?.error
+      ) {
+        errorMessage = (err as any).response.data.error;
+      }
+
       showAlert(errorMessage, "warning");
     }
   };
