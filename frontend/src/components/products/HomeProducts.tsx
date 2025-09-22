@@ -27,7 +27,7 @@ export default function HomeProducts() {
   const router = useRouter();
 
   // Memoize allProducts to avoid unnecessary re-renders
-  const memoProducts = useMemo(() => allProducts, [allProducts]);
+  const memoProducts: Product[] = useMemo<Product[]>(() => allProducts, [allProducts]);
 
   useEffect(() => {
     if (memoProducts.length > 0) {
