@@ -19,15 +19,19 @@ interface Product {
 }
 
 export default function HomeProducts() {
-  const allProducts = useSelector((state: RootState) => state.product.product) || [];
+  // Get products from Redux and ensure it's always an array
+  const allProducts = useSelector((state: RootState) => state.product.product) ?? [];
+
+  // Memoize as Product[] safely
+  const memoProducts = useMemo<Product[]>(() => {
+    return Array.isArray(allProducts) ? allProducts : [];
+  }, [allProducts]);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const router = useRouter();
-
-  // Memoize allProducts to avoid unnecessary re-renders
-  const memoProducts: Product[] = useMemo<Product[]>(() => allProducts, [allProducts]);
 
   useEffect(() => {
     if (memoProducts.length > 0) {
