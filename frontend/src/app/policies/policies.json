@@ -1,0 +1,95 @@
+{
+  "terms": {
+    "title": "Terms of Service",
+    "icon": "file",
+    "content": [
+      {
+        "id": "terms-intro",
+        "title": "Introduction",
+        "content": "Welcome to WhiteBirds! By accessing or using our website, you agree to comply with these Terms of Service. Please read them carefully."
+      },
+      {
+        "id": "terms-eligibility",
+        "title": "Eligibility",
+        "content": "You must be at least 18 years old to make purchases on our site. By using our services, you represent that you are at least 18 years of age."
+      },
+      {
+        "id": "terms-products",
+        "title": "Products & Availability",
+        "content": "All products are subject to availability. We reserve the right to limit or cancel orders. Prices and product descriptions may change at any time without notice."
+      },
+      {
+        "id": "terms-accounts",
+        "title": "User Accounts",
+        "content": "You are responsible for maintaining the confidentiality of your account credentials. Any activities that occur under your account are your responsibility."
+      },
+      {
+        "id": "terms-termination",
+        "title": "Termination",
+        "content": "If you violate these Terms, we may terminate or suspend your access to our services immediately without prior notice."
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "icon": "shield",
+    "content": [
+      {
+        "id": "privacy-intro",
+        "title": "Introduction",
+        "content": "At WhiteBirds, your privacy is important to us. This policy explains how we collect, use, and protect your personal information."
+      },
+      {
+        "id": "privacy-data",
+        "title": "Data Collection",
+        "content": "We collect data such as your name, email, and shipping address when you place an order. We also collect information about how you use our website."
+      },
+      {
+        "id": "privacy-usage",
+        "title": "Data Usage",
+        "content": "Your data is used only for order fulfillment, customer support, and personalized recommendations. We may also use your data to improve our services."
+      },
+      {
+        "id": "privacy-sharing",
+        "title": "Data Sharing",
+        "content": "We do not sell or rent your personal information to third parties. We may share data with trusted service providers who assist in our operations."
+      },
+      {
+        "id": "privacy-security",
+        "title": "Data Security",
+        "content": "We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure."
+      }
+    ]
+  },
+  "cookie": {
+    "title": "Cookie Policy",
+    "icon": "check-square",
+    "content": [
+      {
+        "id": "cookie-intro",
+        "title": "Introduction",
+        "content": "WhiteBirds uses cookies to improve your browsing experience and analyze website traffic. By using our website, you consent to our use of cookies."
+      },
+      {
+        "id": "cookie-types",
+        "title": "Types of Cookies",
+        "content": "We use essential cookies for site functionality, preference cookies to remember your settings, and analytics cookies to understand how visitors use our site."
+      },
+      {
+        "id": "cookie-purpose",
+        "title": "Purpose of Cookies",
+        "content": "Cookies help us remember your preferences and shopping cart items. They also allow us to analyze traffic patterns and improve our website."
+      },
+      {
+        "id": "cookie-management",
+        "title": "Managing Cookies",
+        "content": "You can disable cookies in your browser settings, but some features may not work properly. Most browsers allow you to control cookies through their settings."
+      },
+      {
+        "id": "cookie-third-party",
+        "title": "Third-Party Cookies",
+        "content": "We may also use third-party cookies for analytics and advertising purposes. These cookies are subject to the respective privacy policies of the third parties."
+      }
+    ]
+  }
+}

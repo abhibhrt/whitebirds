@@ -1,0 +1,194 @@
+[
+  {
+    "id": 1,
+    "name": "Legacy Imperium Regular Fit Printed T-Shirt",
+    "price": 7899,
+    "originalPrice": 9999,
+    "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "New"
+  },
+  {
+    "id": 2,
+    "name": "Regular Fit Printed T-Shirt",
+    "price": 7899,
+    "image": "https://images.unsplash.com/photo-1523381294911-8d3cead13475?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 3,
+    "name": "Outlier Regular Fit T-Shirt",
+    "price": 7899,
+    "originalPrice": 8999,
+    "image": "https://images.unsplash.com/photo-1503341338985-b047bb81f917?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Sale"
+  },
+  {
+    "id": 4,
+    "name": "Light Blue Baggy Jeans",
+    "price": 1799,
+    "originalPrice": 2499,
+    "image": "https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Trending"
+  },
+  {
+    "id": 5,
+    "name": "Classic White Sneakers",
+    "price": 5499,
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 6,
+    "name": "Black Leather Jacket",
+    "price": 12999,
+    "originalPrice": 15999,
+    "image": "https://images.unsplash.com/photo-1551028719-00167b16eac5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Popular"
+  },
+  {
+    "id": 7,
+    "name": "Casual Striped Shirt",
+    "price": 3899,
+    "image": "https://images.unsplash.com/photo-1507680434567-5739c80be1ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 8,
+    "name": "Sporty Running Shorts",
+    "price": 2499,
+    "originalPrice": 2999,
+    "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Sale"
+  },
+  {
+    "id": 9,
+    "name": "Slim Fit Chinos",
+    "price": 2999,
+    "image": "https://images.unsplash.com/photo-1583071682126-7f0c7dc48e44?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 10,
+    "name": "Denim Jacket with Patches",
+    "price": 8999,
+    "originalPrice": 10999,
+    "image": "https://images.unsplash.com/photo-1555529771-4a6f1f29f3de?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "New"
+  },
+  {
+    "id": 11,
+    "name": "Graphic Hoodie",
+    "price": 4999,
+    "image": "https://images.unsplash.com/photo-1596464716121-3fefebde0650?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 12,
+    "name": "V-Neck T-Shirt Pack of 3",
+    "price": 3299,
+    "image": "https://images.unsplash.com/photo-1600181956362-2ad1269b093b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Trending"
+  },
+  {
+    "id": 13,
+    "name": "Cargo Shorts",
+    "price": 2199,
+    "image": "https://images.unsplash.com/photo-1571654793221-cdba3aef5c30?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 14,
+    "name": "Classic Polo Shirt",
+    "price": 2599,
+    "originalPrice": 2999,
+    "image": "https://images.unsplash.com/photo-1583947582880-09a79c9e73e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 15,
+    "name": "Slim Fit Jeans",
+    "price": 3999,
+    "originalPrice": 4999,
+    "image": "https://images.unsplash.com/photo-1579821617258-95d20b1f84c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 16,
+    "name": "Leather Belt",
+    "price": 1499,
+    "image": "https://images.unsplash.com/photo-1600181956356-2c5c6e2f7d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 17,
+    "name": "Winter Wool Coat",
+    "price": 17999,
+    "originalPrice": 19999,
+    "image": "https://images.unsplash.com/photo-1618222262484-1a54a896e1b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Popular"
+  },
+  {
+    "id": 18,
+    "name": "Summer Linen Shirt",
+    "price": 3599,
+    "image": "https://images.unsplash.com/photo-1593032465177-c5c0f8f1c1ee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 19,
+    "name": "Running Sneakers",
+    "price": 6499,
+    "originalPrice": 7999,
+    "image": "https://images.unsplash.com/photo-1600181956372-0e0a289b2b08?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Sale"
+  },
+  {
+    "id": 20,
+    "name": "Baseball Cap",
+    "price": 999,
+    "image": "https://images.unsplash.com/photo-1596464716111-8e0f3d3452cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 21,
+    "name": "Knitted Sweater",
+    "price": 4299,
+    "originalPrice": 4999,
+    "image": "https://images.unsplash.com/photo-1600181956361-ef0c3c0c1f80?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 22,
+    "name": "Chino Shorts",
+    "price": 1999,
+    "image": "https://images.unsplash.com/photo-1571654793225-8a2f5c1f7e45?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 23,
+    "name": "Denim Skirt",
+    "price": 2999,
+    "image": "https://images.unsplash.com/photo-1583947582882-8b1b6d9e0c2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 24,
+    "name": "Trench Coat",
+    "price": 14999,
+    "originalPrice": 16999,
+    "image": "https://images.unsplash.com/photo-1618222262485-2a5f7f1c1d25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Trending"
+  },
+  {
+    "id": 25,
+    "name": "Casual Hoodie",
+    "price": 4999,
+    "image": "https://images.unsplash.com/photo-1596464716125-5b4c3c9d4f8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 26,
+    "name": "Formal Shirt",
+    "price": 3799,
+    "originalPrice": 4499,
+    "image": "https://images.unsplash.com/photo-1593032465178-1c5c6d1c2e10?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 27,
+    "name": "Yoga Pants",
+    "price": 2499,
+    "image": "https://images.unsplash.com/photo-1600181956365-2d5c6c0d3b10?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": 28,
+    "name": "Running Shorts Pack of 2",
+    "price": 2999,
+    "image": "https://images.unsplash.com/photo-1571654793228-3c2d7f0e1b25?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    "badge": "Sale"
+  }
+]
