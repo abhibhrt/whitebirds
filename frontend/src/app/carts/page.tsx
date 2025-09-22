@@ -38,10 +38,10 @@ const Cart: React.FC = () => {
     const fetchCart = async () => {
       try {
         const res = await api.get("/cart");
-        const data = (res.data as CartItem[]) || [];
+        const data: CartItem[] = res.data || [];
         setCart(data);
       } catch (err) {
-        console.error("failed to load cart", err);
+        console.error("Failed to load cart", err);
       } finally {
         setLoading(false);
       }
@@ -83,9 +83,7 @@ const Cart: React.FC = () => {
   const total = subtotal - discount;
   const shipping = total > 0 ? 50 : 0;
 
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   return (
     <div className="max-w-6xl mx-auto p-4 pt-24 min-h-screen bg-secondary">
@@ -105,7 +103,7 @@ const Cart: React.FC = () => {
             Your cart is empty
           </h2>
           <p className="text-secondary mb-6">
-            Looks like you haven't added anything to your cart yet.
+            Looks like you haven&apos;t added anything to your cart yet.
           </p>
           <button
             onClick={() => router.push("/products")}
@@ -182,17 +180,15 @@ const Cart: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Item Total */}
+                      {/* Item Actions */}
                       <div className="flex-shrink-0 text-right">
-                        <div className="flex items-center justify-between">
-                          <button
-                            onClick={() => removeItem(item.id)}
-                            disabled={isUpdating}
-                            className="text-error p-2 disabled:opacity-50 cursor-pointer"
-                          >
-                            <FiTrash2 size={20} />
-                          </button>
-                        </div>
+                        <button
+                          onClick={() => removeItem(item.id)}
+                          disabled={isUpdating}
+                          className="text-error p-2 disabled:opacity-50 cursor-pointer"
+                        >
+                          <FiTrash2 size={20} />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -237,6 +233,7 @@ const Cart: React.FC = () => {
                   </div>
                 </div>
               </div>
+
               <button
                 onClick={orderAll}
                 className="w-full bg-accent hover:bg-accent-hover active:bg-accent-active text-white py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center cursor-pointer"
@@ -246,7 +243,7 @@ const Cart: React.FC = () => {
               </button>
 
               <p className="text-secondary text-xs mt-4 text-center">
-                You won't be charged until the next step
+                You won&apos;t be charged until the next step
               </p>
             </div>
 

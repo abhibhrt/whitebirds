@@ -50,8 +50,11 @@ interface Product {
 const ProductDetails: React.FC = () => {
   const params = useParams<{ id: string }>();
   const productId = parseInt(params.id, 10);
-  const products: Product[] = useSelector((state: any) => state.product.product) || [];
+
+  const products: Product[] =
+    useSelector((state: { product: { product: Product[] } }) => state.product.product) || [];
   const product = products.find((p) => p.id === productId);
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { showAlert, AlertComponent } = useAlert();
@@ -70,9 +73,10 @@ const ProductDetails: React.FC = () => {
   const nextImage = () =>
     setSelectedImage((prev) => (prev + 1) % (product.images?.length || 1));
   const prevImage = () =>
-    setSelectedImage((prev) => (prev - 1 + (product.images?.length || 1)) % (product.images?.length || 1));
-  const increaseQuantity = () =>
-    setQuantity((prev) => Math.min(prev + 1, product.stock));
+    setSelectedImage(
+      (prev) => (prev - 1 + (product.images?.length || 1)) % (product.images?.length || 1)
+    );
+  const increaseQuantity = () => setQuantity((prev) => Math.min(prev + 1, product.stock));
   const decreaseQuantity = () => setQuantity((prev) => Math.max(prev - 1, 1));
 
   const addToCart = async () => {
@@ -80,7 +84,7 @@ const ProductDetails: React.FC = () => {
       await api.post("/cart", { productId: product.id });
       showAlert("Added to cart", "success");
     } catch (err: any) {
-      showAlert(err.response?.data?.error || "Error adding to cart", "warning");
+      showAlert(err?.response?.data?.error || "Error adding to cart", "warning");
     }
   };
 
@@ -234,18 +238,28 @@ const ProductDetails: React.FC = () => {
                 <FiTruck className="text-2xl text-primary mt-1 mr-3" />
                 <div>
                   <h3 className="font-semibold text-primary">
-                    {product.shipCharge > 0 ? `Delivery Charge: ₹${product.shipCharge.toLocaleString()}` : "Free Delivery"}
+                    {product.shipCharge > 0
+                      ? `Delivery Charge: ₹${product.shipCharge.toLocaleString()}`
+                      : "Free Delivery"}
                   </h3>
                   <p className="text-secondary text-sm">Delivery in {product.delivery} days</p>
                 </div>
               </div>
 
               <div className="flex items-start">
-                <FiRefreshCw className={`text-2xl mt-1 mr-3 ${product.returnable > 0 ? "text-success" : "text-error"}`} />
+                <FiRefreshCw
+                  className={`text-2xl mt-1 mr-3 ${
+                    product.returnable > 0 ? "text-success" : "text-error"
+                  }`}
+                />
                 <div>
-                  <h3 className="font-semibold text-primary">{product.returnable > 0 ? "Easy Returns" : "No Return"}</h3>
+                  <h3 className="font-semibold text-primary">
+                    {product.returnable > 0 ? "Easy Returns" : "No Return"}
+                  </h3>
                   <p className="text-secondary text-sm">
-                    {product.returnable > 0 ? `Returnable within ${product.returnable} days` : "This product is not returnable"}
+                    {product.returnable > 0
+                      ? `Returnable within ${product.returnable} days`
+                      : "This product is not returnable"}
                   </p>
                 </div>
               </div>

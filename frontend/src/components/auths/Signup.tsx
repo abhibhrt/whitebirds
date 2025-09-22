@@ -8,9 +8,16 @@ import { useAlert } from "../Alert";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/private/userSlice";
 
+interface FormState {
+  name: string;
+  email: string;
+  password: string;
+  mobNo: string;
+}
+
 export default function Signup() {
   const { showAlert, AlertComponent } = useAlert();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
     password: "",
@@ -24,18 +31,18 @@ export default function Signup() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await api.post("/auth/signup", form);
-
       const userData = res.data.user || {};
       dispatch(setUser({ ...userData, mobNo: form.mobNo }));
       showAlert("Account created successfully", "success");
       closeSignup();
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.error || "Invalid credentials";
+    } catch (err: unknown) {
+      const errorMessage =
+        (err as any)?.response?.data?.error || "Invalid credentials";
       showAlert(errorMessage, "error");
     } finally {
       setLoading(false);

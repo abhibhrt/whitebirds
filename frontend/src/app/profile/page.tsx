@@ -13,11 +13,13 @@ import { clearUser } from "@/redux/private/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import UpdateProfile from "@/components/profile/UpdateProfile";
 import OrdersPage from "@/components/profile/OrderDetails";
+import type { RootState } from "@/redux/store"; // Assuming you have RootState
 
 export default function UserProfilePage() {
-  const [activeTab, setActiveTab] = useState("details");
+  const [activeTab, setActiveTab] = useState<"details" | "orders" | "cart" | "password">("details");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const user = useSelector((state: any) => state.user.user);
+
+  const user = useSelector((state: RootState) => state.user.user);
   const { showAlert, AlertComponent } = useAlert();
   const dispatch = useDispatch();
 
@@ -28,8 +30,10 @@ export default function UserProfilePage() {
       try {
         await api.post("/auth/signout");
         dispatch(clearUser());
-      } catch (err: any) {
-        const errorMessage = err?.response?.data?.error || "Invalid credentials";
+      } catch (err: unknown) {
+        const errorMessage =
+          (err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
+          "Invalid credentials";
         showAlert(errorMessage, "error");
       }
     }
@@ -38,7 +42,7 @@ export default function UserProfilePage() {
   const tabs = [
     { key: "details", label: "Personal Info", icon: <FaUser /> },
     { key: "orders", label: "Orders", icon: <FaShoppingBag /> },
-  ];
+  ] as const;
 
   const renderContent = () => {
     switch (activeTab) {
@@ -57,8 +61,8 @@ export default function UserProfilePage() {
 
   return (
     <div className="flex min-h-screen bg-primary pt-20">
-      <AlertComponent/>
-      
+      <AlertComponent />
+
       {/* Mobile menu toggle button */}
       <button
         className="md:hidden fixed bottom-5 right-5 z-50 p-3 btn-primary rounded-full shadow-lg"
@@ -90,9 +94,7 @@ export default function UserProfilePage() {
                   setIsSidebarOpen(false);
                 }}
                 className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all duration-200 cursor-pointer ${
-                  activeTab === tab.key
-                    ? "btn-primary shadow-md"
-                    : "btn-secondary"
+                  activeTab === tab.key ? "btn-primary shadow-md" : "btn-secondary"
                 }`}
               >
                 <span className="text-lg">{tab.icon}</span>
@@ -126,9 +128,7 @@ export default function UserProfilePage() {
           <h1 className="text-3xl font-bold text-primary">
             {tabs.find((tab) => tab.key === activeTab)?.label}
           </h1>
-          <p className="text-secondary">
-            Manage your account settings
-          </p>
+          <p className="text-secondary">Manage your account settings</p>
         </div>
         {renderContent()}
       </main>

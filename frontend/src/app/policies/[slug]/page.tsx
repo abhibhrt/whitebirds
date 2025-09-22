@@ -11,6 +11,18 @@ import {
 import { useParams } from "next/navigation";
 import tabData from "../policies.json";
 
+interface Section {
+  id: string;
+  title: string;
+  content: string;
+}
+
+interface PolicyTab {
+  title: string;
+  icon: keyof typeof iconMap;
+  content: Section[];
+}
+
 const iconMap: Record<string, JSX.Element> = {
   file: <FiFileText className="text-primary" />,
   shield: <FiShield className="text-primary" />,
@@ -20,9 +32,7 @@ const iconMap: Record<string, JSX.Element> = {
 export default function Policies() {
   const params = useParams<{ slug?: string }>();
 
-  const [activeTab, setActiveTab] = useState<"terms" | "privacy" | "cookie">(
-    "terms"
-  );
+  const [activeTab, setActiveTab] = useState<keyof typeof tabData>("terms");
 
   useEffect(() => {
     if (params?.slug === "privacy") setActiveTab("privacy");
@@ -56,13 +66,13 @@ export default function Policies() {
           {Object.keys(tabData).map((key) => (
             <button
               key={key}
-              onClick={() => setActiveTab(key as any)}
+              onClick={() => setActiveTab(key as keyof typeof tabData)}
               className={`flex items-center justify-center gap-2 flex-1 py-4 px-6 text-center font-medium transition-all cursor-pointer ${
                 activeTab === key ? "btn-primary" : "btn-secondary"
               }`}
             >
-              {iconMap[tabData[key].icon]}
-              {tabData[key].title}
+              {iconMap[tabData[key as keyof typeof tabData].icon]}
+              {tabData[key as keyof typeof tabData].title}
             </button>
           ))}
         </div>
@@ -80,7 +90,7 @@ export default function Policies() {
           </div>
 
           <div className="divide-y divide-primary">
-            {tabData[activeTab].content.map((section: any, index: number) => (
+            {tabData[activeTab].content.map((section: Section, index: number) => (
               <div key={section.id} className="p-6">
                 <button
                   onClick={() => toggleSection(section.id)}

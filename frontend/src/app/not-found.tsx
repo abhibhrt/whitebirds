@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FaHome, FaShoppingBag, FaExclamationTriangle } from "react-icons/fa";
+import { FaHome, FaExclamationTriangle } from "react-icons/fa"; // Removed FaShoppingBag
 
 export default function NotFound() {
   return (
@@ -49,7 +49,7 @@ export default function NotFound() {
           transition={{ delay: 0.8 }}
           className="text-lg text-secondary mb-8 max-w-md mx-auto"
         >
-          Oops! The page you're looking for seems to have flown away. Let's help you find your way back to our nest.
+          Oops! The page you&apos;re looking for seems to have flown away. Let&apos;s help you find your way back to our nest.
         </motion.p>
 
         {/* Action Buttons */}

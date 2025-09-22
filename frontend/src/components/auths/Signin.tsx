@@ -7,10 +7,16 @@ import api from "@/utils/axios";
 import { useAlert } from "../Alert";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/private/userSlice";
+import Image from "next/image";
+
+interface FormState {
+  email: string;
+  password: string;
+}
 
 export default function Signin() {
   const { showAlert, AlertComponent } = useAlert();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState<FormState>({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const { closeSignin, openSignup } = useAuthStore();
   const dispatch = useDispatch();
@@ -19,7 +25,7 @@ export default function Signin() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -27,8 +33,9 @@ export default function Signin() {
       dispatch(setUser(res.data.user));
       showAlert(res.data.message, "success");
       closeSignin();
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.error || "Invalid credentials";
+    } catch (err: unknown) {
+      const errorMessage =
+        (err as any)?.response?.data?.error || "Invalid credentials";
       showAlert(errorMessage, "error");
     } finally {
       setLoading(false);
@@ -66,11 +73,12 @@ export default function Signin() {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="flex flex-col items-center"
           >
-            <div className="w-16 h-16 rounded-full overflow-hidden shadow-lg">
-              <img
-                src="user.png"
+            <div className="w-16 h-16 rounded-full overflow-hidden shadow-lg relative">
+              <Image
+                src="/user.png"
                 alt="User Avatar"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
             </div>
             <motion.p
@@ -140,7 +148,7 @@ export default function Signin() {
         {/* Signup Link */}
         <div className="mt-6 text-center">
           <p className="text-secondary">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <button
               className="text-accent hover:underline font-medium cursor-pointer"
               onClick={openSignup}
