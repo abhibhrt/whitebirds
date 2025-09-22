@@ -41,8 +41,15 @@ export default function Signup() {
       showAlert("Account created successfully", "success");
       closeSignup();
     } catch (err: unknown) {
-      const errorMessage =
-        (err as any)?.response?.data?.error || "Invalid credentials";
+      // Type-safe error handling
+      let errorMessage = "Invalid credentials";
+      if (err && typeof err === "object" && "response" in err) {
+        const resp = (err as { response?: { data?: { error?: string } } })
+          .response;
+        if (resp?.data?.error) {
+          errorMessage = resp.data.error;
+        }
+      }
       showAlert(errorMessage, "error");
     } finally {
       setLoading(false);

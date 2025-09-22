@@ -19,32 +19,46 @@ import api from "@/utils/axios";
 import { useAlert } from "@/components/Alert";
 import Image from "next/image";
 
+interface Image {
+  id: number;
+  url: string;
+  isPrimary: boolean;
+  productId: number;
+  publicId: string;
+}
+
 interface Highlight {
   id: number;
   key: string;
   value: string;
+  productId: number;
 }
 
 interface Review {
   id: number;
+  productId: number;
+  userId: number;
   rating: number;
-  comment: string;
-  user: string;
+  feedback: string;
+  createdAt: string;
 }
 
 interface Product {
   id: number;
   title: string;
+  description: string;
   price: number;
   discount: number;
-  description: string;
   stock: number;
-  images: { url: string }[];
-  reviews: Review[];
-  highlights?: Highlight[];
-  shipCharge: number;
+  category: string;
+  sizes: string;
   delivery: number;
+  shipCharge: number;
   returnable: number;
+  createdAt: string;
+  images: Image[];
+  reviews: Review[];
+  highlights: Highlight[];
 }
 
 const ProductDetails: React.FC = () => {
@@ -118,7 +132,7 @@ const ProductDetails: React.FC = () => {
         <div className="relative">
           <div className="relative w-full h-auto rounded-lg overflow-hidden shadow-md bg-secondary">
             {product.images?.[selectedImage]?.url && (
-              <Image
+              <img
                 src={product.images[selectedImage].url}
                 alt={product.title}
                 width={500}

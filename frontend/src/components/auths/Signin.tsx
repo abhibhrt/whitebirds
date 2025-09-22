@@ -34,8 +34,15 @@ export default function Signin() {
       showAlert(res.data.message, "success");
       closeSignin();
     } catch (err: unknown) {
-      const errorMessage =
-        (err as any)?.response?.data?.error || "Invalid credentials";
+      // Type-safe error handling
+      let errorMessage = "Invalid credentials";
+      if (err && typeof err === "object" && "response" in err) {
+        const resp = (err as { response?: { data?: { error?: string } } })
+          .response;
+        if (resp?.data?.error) {
+          errorMessage = resp.data.error;
+        }
+      }
       showAlert(errorMessage, "error");
     } finally {
       setLoading(false);
@@ -118,9 +125,7 @@ export default function Signin() {
                 type="checkbox"
                 className="rounded text-accent focus:ring-accent"
               />
-              <span className="ml-2 text-sm text-secondary">
-                Remember me
-              </span>
+              <span className="ml-2 text-sm text-secondary">Remember me</span>
             </label>
             <button
               type="button"

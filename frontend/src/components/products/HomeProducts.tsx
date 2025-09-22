@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { RootState } from "@/redux/store";
 
 interface ProductImage {
   url: string;
@@ -17,28 +18,31 @@ interface Product {
   images: ProductImage[];
 }
 
-export default function ProductsGrid() {
-  const allProducts: Product[] = useSelector((state: any) => state.product.product) || [];
+export default function HomeProducts() {
+  const allProducts = useSelector((state: RootState) => state.product.product) || [];
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const router = useRouter();
 
+  // Memoize allProducts to avoid unnecessary re-renders
+  const memoProducts = useMemo(() => allProducts, [allProducts]);
+
   useEffect(() => {
-    if (allProducts.length > 0) {
-      setProducts(allProducts.slice(0, 4));
+    if (memoProducts.length > 0) {
+      setProducts(memoProducts.slice(0, 4));
     }
-  }, [allProducts]);
+  }, [memoProducts]);
 
   const loadMoreProducts = useCallback(() => {
-    if (loading || !hasMore || allProducts.length === 0) return;
+    if (loading || !hasMore || memoProducts.length === 0) return;
     setLoading(true);
 
     setTimeout(() => {
       const nextPage = page + 1;
       const startIndex = (nextPage - 1) * 4;
-      const newProducts = allProducts.slice(startIndex, startIndex + 4);
+      const newProducts = memoProducts.slice(startIndex, startIndex + 4);
 
       if (newProducts.length === 0) {
         setHasMore(false);
@@ -49,7 +53,7 @@ export default function ProductsGrid() {
 
       setLoading(false);
     }, 1000);
-  }, [loading, hasMore, page, allProducts]);
+  }, [loading, hasMore, page, memoProducts]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -140,11 +144,11 @@ export default function ProductsGrid() {
         )}
       </div>
 
-      {!hasMore && allProducts.length > 0 && (
+      {!hasMore && memoProducts.length > 0 && (
         <div className="text-center py-2 text-secondary">
           You've reached the end of products
         </div>
       )}
     </div>
   );
-};
+}

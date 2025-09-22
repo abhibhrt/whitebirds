@@ -13,16 +13,46 @@ import {
 } from "react-icons/fa";
 import ProductGrid from "@/components/products/ProductGrid";
 
+interface Image {
+  id: number;
+  url: string;
+  isPrimary: boolean;
+  productId: number;
+  publicId: string;
+}
+
+interface Highlight {
+  id: number;
+  key: string;
+  value: string;
+  productId: number;
+}
+
+interface Review {
+  id: number;
+  productId: number;
+  userId: number;
+  rating: number;
+  feedback: string;
+  createdAt: string;
+}
+
 interface Product {
-  id: string;
+  id: number;
   title: string;
-  category: string;
-  sizes: string[];
+  description: string;
   price: number;
   discount: number;
-  reviews?: { rating: number }[];
-  returnable: boolean;
+  stock: number;
+  category: string;
+  sizes: string;
   delivery: number;
+  shipCharge: number;
+  returnable: number;
+  createdAt: string;
+  images: Image[];
+  reviews: Review[];
+  highlights: Highlight[];
 }
 
 interface RootState {
@@ -32,8 +62,9 @@ interface RootState {
 }
 
 export default function Collections() {
-  const products =
-    useSelector((state: RootState) => state.product.product) || [];
+  const products = useSelector(
+    (state: RootState) => state.product.product
+  ) || [];
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -48,34 +79,31 @@ export default function Collections() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   const filteredProducts = useMemo(() => {
-    const filtered = products
-      .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
-      .filter((p) => (category ? p.category === category : true))
-      .filter((p) => (size ? p.sizes.includes(size) : true))
-      .filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1])
-      .filter((p) => (discount ? p.discount >= discount : true))
-      .filter((p) => {
-        if (!rating) return true;
-        const avgRating =
-          p.reviews?.reduce((sum, r) => sum + r.rating, 0) /
-          (p.reviews?.length || 1);
-        return avgRating >= rating;
-      })
-      .filter((p) => (returnable ? p.returnable : true))
-      .filter((p) => (delivery ? p.delivery <= delivery : true));
+    return products.filter((p) => {
+      const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase());
+      const matchesCategory = category ? p.category === category : true;
+      const matchesSize = size ? p.sizes.includes(size) : true;
+      const matchesPrice = p.price >= priceRange[0] && p.price <= priceRange[1];
+      const matchesDiscount = discount ? p.discount >= discount : true;
+      const avgRating =
+        p.reviews?.reduce((sum, r) => sum + r.rating, 0) /
+          (p.reviews?.length || 1) || 0;
+      const matchesRating = rating ? avgRating >= rating : true;
+      const matchesReturnable = returnable ? p.returnable : true;
+      const matchesDelivery = delivery ? p.delivery <= delivery : true;
 
-    return filtered;
-  }, [
-    products,
-    search,
-    category,
-    size,
-    priceRange,
-    discount,
-    rating,
-    returnable,
-    delivery,
-  ]);
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        matchesSize &&
+        matchesPrice &&
+        matchesDiscount &&
+        matchesRating &&
+        matchesReturnable &&
+        matchesDelivery
+      );
+    });
+  }, [products, search, category, size, priceRange, discount, rating, returnable, delivery]);
 
   const clearFilters = () => {
     setSearch("");

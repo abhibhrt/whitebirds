@@ -10,7 +10,33 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 
-export default function ProductGrid({ collections, clearFilters }: any) {
+interface ProductReview {
+  rating: number;
+}
+
+interface ProductImage {
+  url: string;
+  isPrimary: boolean;
+}
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  discount: number;
+  images: ProductImage[];
+  reviews?: ProductReview[];
+}
+
+interface ProductGridProps {
+  collections: Product[];
+  clearFilters: () => void;
+}
+
+export default function ProductGrid({
+  collections,
+  clearFilters,
+}: ProductGridProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(12);
@@ -51,7 +77,7 @@ export default function ProductGrid({ collections, clearFilters }: any) {
       ) : paginatedProducts.length ? (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-            {paginatedProducts.map((product: any) => (
+            {paginatedProducts.map((product) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -96,7 +122,7 @@ export default function ProductGrid({ collections, clearFilters }: any) {
                       {product.reviews?.length
                         ? (
                             product.reviews.reduce(
-                              (sum: any, r: any) => sum + r.rating,
+                              (sum, r) => sum + r.rating,
                               0
                             ) / product.reviews.length
                           ).toFixed(1)
@@ -112,7 +138,7 @@ export default function ProductGrid({ collections, clearFilters }: any) {
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-4 mt-8">
               <button
-                onClick={() => setPage((p: any) => Math.max(p - 1, 1))}
+                onClick={() => setPage((p) => Math.max(p - 1, 1))}
                 disabled={page === 1}
                 className="flex items-center gap-2 px-4 py-2 border border-primary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary cursor-pointer"
               >
@@ -137,9 +163,7 @@ export default function ProductGrid({ collections, clearFilters }: any) {
               </div>
 
               <button
-                onClick={() =>
-                  setPage((p: any) => Math.min(p + 1, totalPages))
-                }
+                onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
                 disabled={page === totalPages}
                 className="flex items-center gap-2 px-4 py-2 border border-primary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary cursor-pointer"
               >
