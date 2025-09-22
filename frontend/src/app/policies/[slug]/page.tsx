@@ -17,11 +17,7 @@ interface Section {
   content: string;
 }
 
-interface PolicyTab {
-  title: string;
-  icon: keyof typeof iconMap;
-  content: Section[];
-}
+// Removed unused PolicyTab interface
 
 const iconMap: Record<string, JSX.Element> = {
   file: <FiFileText className="text-primary" />,

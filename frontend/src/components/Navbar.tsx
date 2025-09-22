@@ -5,8 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoSearch, IoClose, IoMenu, IoPerson, IoCart, IoChevronDown } from "react-icons/io5";
-import { useAuthStore } from "@/zustand/authStore";
 import { useSelector } from "react-redux";
+import { useAuthStore } from "@/zustand/authStore";
+
+interface NavItem {
+  name: string;
+  path: string;
+  subItems?: { name: string; path: string }[];
+}
 
 const MotionLink = motion(Link);
 
@@ -14,22 +20,23 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [mobileSubOpen, setMobileSubOpen] = useState<Record<string, boolean>>({});
   const [isCollectionsHovered, setIsCollectionsHovered] = useState(false);
-  const user = useSelector((state: any) => state.user?.user);
 
   const pathname = usePathname();
   const { openSignin } = useAuthStore();
+  const user = useSelector((state: any) => state.user?.user);
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: "Home", path: "/" },
-    { 
-      name: "Collections", 
+    {
+      name: "Collections",
       path: "/collections",
       subItems: [
         { name: "New Arrivals", path: "/collections/new" },
         { name: "Best Sellers", path: "/collections/best" },
         { name: "Sale Items", path: "/collections/sale" },
-      ]
+      ],
     },
   ];
 
@@ -41,11 +48,15 @@ const Navbar = () => {
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const toggleSearch = () => setIsSearchOpen((prev) => !prev);
+  const toggleMobileSub = (name: string) =>
+    setMobileSubOpen((prev) => ({ ...prev, [name]: !prev[name] }));
 
   const isDarkTheme = !scrolled;
   const textColor = isDarkTheme ? "text-white" : "text-gray-800";
   const hoverColor = isDarkTheme ? "hover:text-white" : "hover:text-purple-600";
-  const bgColor = isDarkTheme ? "bg-gradient-to-r from-green-950 to-blue-950" : "bg-white/95 backdrop-blur-sm";
+  const bgColor = isDarkTheme
+    ? "bg-gradient-to-r from-green-950 to-blue-950"
+    : "bg-white/95 backdrop-blur-sm";
   const borderColor = isDarkTheme ? "border-white/20" : "border-gray-200";
 
   return (
@@ -60,16 +71,16 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <motion.div 
-            whileHover={{ scale: 1.05 }} 
+          <motion.div
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`flex-shrink-0 ${isSearchOpen ? "opacity-0 pointer-events-none" : "opacity-100"}`}
           >
             <Link href="/" className="flex items-center space-x-2">
-              <div className={`w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center`}>
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
                 <span className="text-white font-bold text-lg">W</span>
               </div>
-              <span className={`text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent`}>
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 WhiteBirds
               </span>
             </Link>
@@ -78,23 +89,25 @@ const Navbar = () => {
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <div key={item.name} className="relative" onMouseEnter={() => item.subItems && setIsCollectionsHovered(true)} onMouseLeave={() => item.subItems && setIsCollectionsHovered(false)}>
+              <div
+                key={item.name}
+                className="relative"
+                onMouseEnter={() => item.subItems && setIsCollectionsHovered(true)}
+                onMouseLeave={() => item.subItems && setIsCollectionsHovered(false)}
+              >
                 <Link
                   href={item.path}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 relative group flex items-center space-x-1 ${
                     pathname === item.path
-                      ? isDarkTheme 
-                        ? "text-white bg-white/10" 
+                      ? isDarkTheme
+                        ? "text-white bg-white/10"
                         : "text-purple-600 bg-purple-50"
                       : `${textColor} ${hoverColor}`
                   }`}
                 >
                   <span>{item.name}</span>
                   {item.subItems && (
-                    <motion.div
-                      animate={{ rotate: isCollectionsHovered ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
+                    <motion.div animate={{ rotate: isCollectionsHovered ? 180 : 0 }} transition={{ duration: 0.2 }}>
                       <IoChevronDown className="w-4 h-4" />
                     </motion.div>
                   )}
@@ -120,8 +133,8 @@ const Navbar = () => {
                         key={subItem.name}
                         href={subItem.path}
                         className={`block px-4 py-3 text-sm font-medium transition-all duration-200 border-b ${
-                          isDarkTheme 
-                            ? "border-gray-800 hover:bg-gray-800 text-gray-200" 
+                          isDarkTheme
+                            ? "border-gray-800 hover:bg-gray-800 text-gray-200"
                             : "border-gray-100 hover:bg-purple-50 text-gray-700"
                         } last:border-b-0`}
                         onClick={() => setIsCollectionsHovered(false)}
@@ -140,7 +153,7 @@ const Navbar = () => {
             {/* Search */}
             <div className="flex items-center">
               <AnimatePresence mode="wait">
-                {isSearchOpen ? (
+                {isSearchOpen && (
                   <motion.div
                     initial={{ width: 0, opacity: 0 }}
                     animate={{ width: 200, opacity: 1 }}
@@ -157,7 +170,7 @@ const Navbar = () => {
                       autoFocus
                     />
                   </motion.div>
-                ) : null}
+                )}
               </AnimatePresence>
 
               <motion.button
@@ -165,9 +178,7 @@ const Navbar = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 className={`p-2.5 rounded-full transition-all duration-200 ml-2 cursor-pointer ${
-                  isDarkTheme 
-                    ? "hover:bg-white/10 text-white" 
-                    : "hover:bg-gray-100 text-gray-600"
+                  isDarkTheme ? "hover:bg-white/10 text-white" : "hover:bg-gray-100 text-gray-600"
                 }`}
               >
                 {isSearchOpen ? <IoClose className="h-5 w-5" /> : <IoSearch className="h-5 w-5" />}
@@ -223,11 +234,7 @@ const Navbar = () => {
                 isDarkTheme ? "hover:bg-white/10" : "hover:bg-gray-100"
               }`}
             >
-              {!isOpen ? (
-                <IoMenu className={`h-6 w-6 ${textColor}`} />
-              ) : (
-                <IoClose className={`h-6 w-6 ${textColor}`} />
-              )}
+              {!isOpen ? <IoMenu className={`h-6 w-6 ${textColor}`} /> : <IoClose className={`h-6 w-6 ${textColor}`} />}
             </motion.button>
           </div>
         </div>
@@ -241,17 +248,14 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className={`md:hidden border-t ${borderColor} ${
-              isDarkTheme ? "bg-gray-900" : "bg-white"
-            }`}
+            className={`md:hidden border-t ${borderColor} ${isDarkTheme ? "bg-gray-900" : "bg-white"}`}
           >
             <div className="px-4 py-3 space-y-2">
               {navItems.map((item) => (
                 <div key={item.name}>
-                  <Link
-                    href={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                  <button
+                    onClick={() => item.subItems ? toggleMobileSub(item.name) : setIsOpen(false)}
+                    className={`w-full text-left flex justify-between items-center px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
                       pathname === item.path
                         ? isDarkTheme
                           ? "bg-white/10 text-white"
@@ -262,10 +266,10 @@ const Navbar = () => {
                     }`}
                   >
                     {item.name}
-                  </Link>
-                  {/* Mobile Subitems */}
-                  {item.subItems && (
-                    <div className="ml-4 space-y-1 mt-1">
+                    {item.subItems && <IoChevronDown className={`w-4 h-4 transform ${mobileSubOpen[item.name] ? "rotate-180" : ""}`} />}
+                  </button>
+                  {item.subItems && mobileSubOpen[item.name] && (
+                    <div className="ml-4 mt-1 space-y-1">
                       {item.subItems.map((subItem) => (
                         <Link
                           key={subItem.name}

@@ -25,8 +25,15 @@ interface Product {
   delivery: number;
 }
 
+interface RootState {
+  product: {
+    product: Product[];
+  };
+}
+
 export default function Collections() {
-  const products = useSelector((state: any) => state.product.product) as Product[] || [];
+  const products =
+    useSelector((state: RootState) => state.product.product) || [];
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -41,7 +48,7 @@ export default function Collections() {
   const searchRef = useRef<HTMLInputElement>(null);
 
   const filteredProducts = useMemo(() => {
-    return products
+    const filtered = products
       .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
       .filter((p) => (category ? p.category === category : true))
       .filter((p) => (size ? p.sizes.includes(size) : true))
@@ -50,12 +57,25 @@ export default function Collections() {
       .filter((p) => {
         if (!rating) return true;
         const avgRating =
-          p.reviews?.reduce((sum, r) => sum + r.rating, 0) / (p.reviews?.length || 1);
+          p.reviews?.reduce((sum, r) => sum + r.rating, 0) /
+          (p.reviews?.length || 1);
         return avgRating >= rating;
       })
       .filter((p) => (returnable ? p.returnable : true))
       .filter((p) => (delivery ? p.delivery <= delivery : true));
-  }, [products, search, category, size, priceRange, discount, rating, returnable, delivery]);
+
+    return filtered;
+  }, [
+    products,
+    search,
+    category,
+    size,
+    priceRange,
+    discount,
+    rating,
+    returnable,
+    delivery,
+  ]);
 
   const clearFilters = () => {
     setSearch("");
@@ -137,7 +157,9 @@ export default function Collections() {
 
       {/* Discount */}
       <div>
-        <label className="block text-sm font-medium mb-2">Minimum Discount</label>
+        <label className="block text-sm font-medium mb-2">
+          Minimum Discount
+        </label>
         <input
           type="range"
           min={0}
@@ -188,7 +210,9 @@ export default function Collections() {
 
       {/* Delivery */}
       <div>
-        <label className="block text-sm font-medium mb-2">Max Delivery Days</label>
+        <label className="block text-sm font-medium mb-2">
+          Max Delivery Days
+        </label>
         <div className="flex items-center gap-2">
           <FaTruck className="text-accent" />
           <input
@@ -258,7 +282,10 @@ export default function Collections() {
         </AnimatePresence>
 
         {/* Products Grid */}
-        <ProductGrid collections={filteredProducts} clearFilters={clearFilters} />
+        <ProductGrid
+          collections={filteredProducts}
+          clearFilters={clearFilters}
+        />
       </div>
     </div>
   );

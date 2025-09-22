@@ -52,7 +52,9 @@ const ProductDetails: React.FC = () => {
   const productId = parseInt(params.id, 10);
 
   const products: Product[] =
-    useSelector((state: { product: { product: Product[] } }) => state.product.product) || [];
+    useSelector(
+      (state: { product: { product: Product[] } }) => state.product.product
+    ) || [];
   const product = products.find((p) => p.id === productId);
 
   const [selectedImage, setSelectedImage] = useState(0);
@@ -61,7 +63,9 @@ const ProductDetails: React.FC = () => {
 
   if (!product) return <NotFound />;
 
-  const discountedPrice = Math.round(product.price - (product.price * product.discount) / 100);
+  const discountedPrice = Math.round(
+    product.price - (product.price * product.discount) / 100
+  );
 
   const reviewCount = product.reviews.length;
   const averageRating =
@@ -74,17 +78,27 @@ const ProductDetails: React.FC = () => {
     setSelectedImage((prev) => (prev + 1) % (product.images?.length || 1));
   const prevImage = () =>
     setSelectedImage(
-      (prev) => (prev - 1 + (product.images?.length || 1)) % (product.images?.length || 1)
+      (prev) =>
+        (prev - 1 + (product.images?.length || 1)) %
+        (product.images?.length || 1)
     );
-  const increaseQuantity = () => setQuantity((prev) => Math.min(prev + 1, product.stock));
+  const increaseQuantity = () =>
+    setQuantity((prev) => Math.min(prev + 1, product.stock));
   const decreaseQuantity = () => setQuantity((prev) => Math.max(prev - 1, 1));
 
   const addToCart = async () => {
     try {
       await api.post("/cart", { productId: product.id });
       showAlert("Added to cart", "success");
-    } catch (err: any) {
-      showAlert(err?.response?.data?.error || "Error adding to cart", "warning");
+    } catch (err) {
+      const errorMessage =
+        err &&
+        typeof err === "object" &&
+        "response" in err &&
+        err.response?.data?.error
+          ? err.response.data.error
+          : "Error adding to cart";
+      showAlert(errorMessage, "warning");
     }
   };
 
@@ -147,7 +161,9 @@ const ProductDetails: React.FC = () => {
                 <div
                   key={index}
                   className={`h-20 w-20 rounded-md overflow-hidden cursor-pointer border-2 transition-all ${
-                    selectedImage === index ? "border-primary" : "border-secondary"
+                    selectedImage === index
+                      ? "border-primary"
+                      : "border-secondary"
                   }`}
                   onClick={() => handleImageChange(index)}
                 >
@@ -166,25 +182,36 @@ const ProductDetails: React.FC = () => {
 
         {/* Product Info */}
         <div className="py-4">
-          <h1 className="text-2xl md:text-3xl font-bold text-primary">{product.title}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-primary">
+            {product.title}
+          </h1>
 
           {/* Rating */}
           <div className="flex items-center mt-2">
             <div className="flex text-accent">
               {[...Array(5)].map((_, i) => (
-                <FiStar key={i} className={`${i < averageRating ? "fill-current" : ""}`} />
+                <FiStar
+                  key={i}
+                  className={`${i < averageRating ? "fill-current" : ""}`}
+                />
               ))}
             </div>
             <span className="ml-2 text-secondary">{reviewCount} reviews</span>
           </div>
 
-          <p className="text-secondary mt-4 leading-relaxed">{product.description}</p>
+          <p className="text-secondary mt-4 leading-relaxed">
+            {product.description}
+          </p>
 
           {/* Price */}
           <div className="mt-6 p-4 bg-secondary rounded-lg">
             <div className="flex items-end">
-              <span className="text-success text-3xl font-bold">₹{discountedPrice.toLocaleString()}</span>
-              <span className="text-primary text-xl line-through ml-3">₹{product.price.toLocaleString()}</span>
+              <span className="text-success text-3xl font-bold">
+                ₹{discountedPrice.toLocaleString()}
+              </span>
+              <span className="text-primary text-xl line-through ml-3">
+                ₹{product.price.toLocaleString()}
+              </span>
               <span className="ml-4 px-2 py-1 bg-success text-white text-sm font-semibold rounded">
                 You save ₹{(product.price - discountedPrice).toLocaleString()}
               </span>
@@ -202,7 +229,9 @@ const ProductDetails: React.FC = () => {
               >
                 -
               </button>
-              <div className="px-4 py-2 border-t border-b border-primary text-primary">{quantity}</div>
+              <div className="px-4 py-2 border-t border-b border-primary text-primary">
+                {quantity}
+              </div>
               <button
                 onClick={increaseQuantity}
                 className="p-2 border border-primary rounded-r-md hover:bg-primary-hover cursor-pointer text-primary"
@@ -210,7 +239,9 @@ const ProductDetails: React.FC = () => {
               >
                 +
               </button>
-              <span className="ml-4 text-secondary">{product.stock} available</span>
+              <span className="ml-4 text-secondary">
+                {product.stock} available
+              </span>
             </div>
           </div>
 
@@ -242,7 +273,9 @@ const ProductDetails: React.FC = () => {
                       ? `Delivery Charge: ₹${product.shipCharge.toLocaleString()}`
                       : "Free Delivery"}
                   </h3>
-                  <p className="text-secondary text-sm">Delivery in {product.delivery} days</p>
+                  <p className="text-secondary text-sm">
+                    Delivery in {product.delivery} days
+                  </p>
                 </div>
               </div>
 
@@ -269,7 +302,9 @@ const ProductDetails: React.FC = () => {
           {/* Highlights */}
           {product.highlights?.length > 0 && (
             <div className="mt-6">
-              <h3 className="font-semibold text-lg mb-3 text-primary">Product Highlights</h3>
+              <h3 className="font-semibold text-lg mb-3 text-primary">
+                Product Highlights
+              </h3>
               <ul className="space-y-2">
                 {product.highlights.map((h) => (
                   <li key={h.id} className="flex items-start">
