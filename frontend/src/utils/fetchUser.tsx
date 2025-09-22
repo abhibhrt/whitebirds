@@ -8,12 +8,12 @@ import api from "./axios";
 const useFetchUser = () => {
   const dispatch = useDispatch();
 
-  const fetchUser = useCallback(async () => {
+  const fetchUser = useCallback(async (): Promise<void> => {
     try {
       const res = await api.get("/personal");
       dispatch(setUser(res.data.user));
-    } catch (err) {
-      
+    } catch (err: unknown) {
+      console.error(err);
     }
   }, [dispatch]);
 

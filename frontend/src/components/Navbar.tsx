@@ -4,7 +4,14 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoSearch, IoClose, IoMenu, IoPerson, IoCart, IoChevronDown } from "react-icons/io5";
+import {
+  IoSearch,
+  IoClose,
+  IoMenu,
+  IoPerson,
+  IoCart,
+  IoChevronDown,
+} from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useAuthStore } from "@/zustand/authStore";
 
@@ -20,7 +27,9 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [mobileSubOpen, setMobileSubOpen] = useState<Record<string, boolean>>({});
+  const [mobileSubOpen, setMobileSubOpen] = useState<Record<string, boolean>>(
+    {}
+  );
   const [isCollectionsHovered, setIsCollectionsHovered] = useState(false);
 
   const pathname = usePathname();
@@ -74,7 +83,9 @@ const Navbar = () => {
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`flex-shrink-0 ${isSearchOpen ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+            className={`flex-shrink-0 ${
+              isSearchOpen ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
           >
             <Link href="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
@@ -92,8 +103,12 @@ const Navbar = () => {
               <div
                 key={item.name}
                 className="relative"
-                onMouseEnter={() => item.subItems && setIsCollectionsHovered(true)}
-                onMouseLeave={() => item.subItems && setIsCollectionsHovered(false)}
+                onMouseEnter={() =>
+                  item.subItems && setIsCollectionsHovered(true)
+                }
+                onMouseLeave={() =>
+                  item.subItems && setIsCollectionsHovered(false)
+                }
               >
                 <Link
                   href={item.path}
@@ -107,7 +122,10 @@ const Navbar = () => {
                 >
                   <span>{item.name}</span>
                   {item.subItems && (
-                    <motion.div animate={{ rotate: isCollectionsHovered ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                    <motion.div
+                      animate={{ rotate: isCollectionsHovered ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
                       <IoChevronDown className="w-4 h-4" />
                     </motion.div>
                   )}
@@ -125,7 +143,9 @@ const Navbar = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
                     className={`absolute top-full left-0 mt-2 w-48 rounded-xl shadow-2xl border ${
-                      isDarkTheme ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"
+                      isDarkTheme
+                        ? "bg-gray-900 border-gray-700"
+                        : "bg-white border-gray-200"
                     }`}
                   >
                     {item.subItems.map((subItem) => (
@@ -165,7 +185,9 @@ const Navbar = () => {
                       type="text"
                       placeholder="Search products..."
                       className={`w-full pl-4 pr-10 py-2.5 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 border ${
-                        isDarkTheme ? "bg-gray-800 border-gray-700 text-white" : "bg-white border-gray-300"
+                        isDarkTheme
+                          ? "bg-gray-800 border-gray-700 text-white"
+                          : "bg-white border-gray-300"
                       }`}
                       autoFocus
                     />
@@ -178,10 +200,16 @@ const Navbar = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 className={`p-2.5 rounded-full transition-all duration-200 ml-2 cursor-pointer ${
-                  isDarkTheme ? "hover:bg-white/10 text-white" : "hover:bg-gray-100 text-gray-600"
+                  isDarkTheme
+                    ? "hover:bg-white/10 text-white"
+                    : "hover:bg-gray-100 text-gray-600"
                 }`}
               >
-                {isSearchOpen ? <IoClose className="h-5 w-5" /> : <IoSearch className="h-5 w-5" />}
+                {isSearchOpen ? (
+                  <IoClose className="h-5 w-5" />
+                ) : (
+                  <IoSearch className="h-5 w-5" />
+                )}
               </motion.button>
             </div>
 
@@ -234,7 +262,11 @@ const Navbar = () => {
                 isDarkTheme ? "hover:bg-white/10" : "hover:bg-gray-100"
               }`}
             >
-              {!isOpen ? <IoMenu className={`h-6 w-6 ${textColor}`} /> : <IoClose className={`h-6 w-6 ${textColor}`} />}
+              {!isOpen ? (
+                <IoMenu className={`h-6 w-6 ${textColor}`} />
+              ) : (
+                <IoClose className={`h-6 w-6 ${textColor}`} />
+              )}
             </motion.button>
           </div>
         </div>
@@ -248,13 +280,19 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className={`md:hidden border-t ${borderColor} ${isDarkTheme ? "bg-gray-900" : "bg-white"}`}
+            className={`md:hidden border-t ${borderColor} ${
+              isDarkTheme ? "bg-gray-900" : "bg-white"
+            }`}
           >
             <div className="px-4 py-3 space-y-2">
               {navItems.map((item) => (
                 <div key={item.name}>
                   <button
-                    onClick={() => item.subItems ? toggleMobileSub(item.name) : setIsOpen(false)}
+                    onClick={() =>
+                      item.subItems
+                        ? toggleMobileSub(item.name)
+                        : setIsOpen(false)
+                    }
                     className={`w-full text-left flex justify-between items-center px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
                       pathname === item.path
                         ? isDarkTheme
@@ -266,7 +304,13 @@ const Navbar = () => {
                     }`}
                   >
                     {item.name}
-                    {item.subItems && <IoChevronDown className={`w-4 h-4 transform ${mobileSubOpen[item.name] ? "rotate-180" : ""}`} />}
+                    {item.subItems && (
+                      <IoChevronDown
+                        className={`w-4 h-4 transform ${
+                          mobileSubOpen[item.name] ? "rotate-180" : ""
+                        }`}
+                      />
+                    )}
                   </button>
                   {item.subItems && mobileSubOpen[item.name] && (
                     <div className="ml-4 mt-1 space-y-1">
