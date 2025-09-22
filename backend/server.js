@@ -27,7 +27,11 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
-  })
+  },
+  cors({
+    origin: "https://whitebirds.vercel.app",
+    credentials: true,
+  }))
 );
 
 app.use(helmet({
