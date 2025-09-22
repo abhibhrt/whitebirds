@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FiFileText,
   FiShield,
@@ -17,9 +17,7 @@ interface Section {
   content: string;
 }
 
-// Removed unused PolicyTab interface
-
-const iconMap: Record<string, JSX.Element> = {
+const iconMap: Record<string, React.ReactElement> = {
   file: <FiFileText className="text-primary" />,
   shield: <FiShield className="text-primary" />,
   "check-square": <FiCheckSquare className="text-primary" />,
@@ -63,9 +61,8 @@ export default function Policies() {
             <button
               key={key}
               onClick={() => setActiveTab(key as keyof typeof tabData)}
-              className={`flex items-center justify-center gap-2 flex-1 py-4 px-6 text-center font-medium transition-all cursor-pointer ${
-                activeTab === key ? "btn-primary" : "btn-secondary"
-              }`}
+              className={`flex items-center justify-center gap-2 flex-1 py-4 px-6 text-center font-medium transition-all cursor-pointer ${activeTab === key ? "btn-primary" : "btn-secondary"
+                }`}
             >
               {iconMap[tabData[key as keyof typeof tabData].icon]}
               {tabData[key as keyof typeof tabData].title}
@@ -105,18 +102,16 @@ export default function Policies() {
                     </div>
                   </div>
                   <FiChevronDown
-                    className={`text-secondary transition-transform ${
-                      openSections[section.id] ? "rotate-180" : ""
-                    }`}
+                    className={`text-secondary transition-transform ${openSections[section.id] ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    openSections[section.id]
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${openSections[section.id]
                       ? "max-h-96 opacity-100"
                       : "max-h-0 opacity-0"
-                  }`}
+                    }`}
                 >
                   <div className="pl-12 pt-4">
                     <p className="text-secondary leading-relaxed">
