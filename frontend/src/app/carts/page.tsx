@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 import { useAlert } from "@/components/Alert";
 import Loading from "@/app/loading";
+import Image from "next/image";
 
 interface Product {
   id: number;
@@ -37,7 +38,7 @@ const Cart: React.FC = () => {
     const fetchCart = async () => {
       try {
         const res = await api.get("/cart");
-        const data = res.data as CartItem[];
+        const data = (res.data as CartItem[]) || [];
         setCart(data);
       } catch (err) {
         console.error("failed to load cart", err);
@@ -87,7 +88,7 @@ const Cart: React.FC = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-4 pt-25 min-h-screen bg-secondary">
+    <div className="max-w-6xl mx-auto p-4 pt-24 min-h-screen bg-secondary">
       <AlertComponent />
       <h1 className="text-3xl font-bold text-primary mb-2 flex items-center">
         <FiShoppingCart className="mr-3 text-accent" />
@@ -118,7 +119,7 @@ const Cart: React.FC = () => {
           {/* Cart Items */}
           <div className="lg:w-2/3">
             <div className="bg-secondary rounded-xl shadow-sm overflow-hidden">
-              {cart.map((item: any) => {
+              {cart.map((item: CartItem) => {
                 const isUpdating = updatingItems.includes(item.id);
                 const discountedPrice = item.product.discount
                   ? item.product.price -
@@ -133,11 +134,13 @@ const Cart: React.FC = () => {
                     <div className="flex flex-row sm:flex-row gap-4">
                       {/* Product Image */}
                       <div className="flex-shrink-0">
-                        <div className="h-24 w-24 bg-secondary rounded-lg overflow-hidden">
+                        <div className="h-24 w-24 bg-secondary rounded-lg overflow-hidden relative">
                           {item.product.images?.[0]?.url ? (
-                            <img
+                            <Image
                               src={item.product.images[0].url}
                               alt={item.product.title}
+                              width={96}
+                              height={96}
                               className="h-full w-full object-cover"
                             />
                           ) : (
@@ -155,7 +158,7 @@ const Cart: React.FC = () => {
                         </h3>
 
                         <div className="flex items-center mb-3">
-                          {item.product.discount > 0 ? (
+                          {item.product.discount && item.product.discount > 0 ? (
                             <>
                               <span className="text-success text-lg font-bold mr-2">
                                 ₹{discountedPrice.toLocaleString()}

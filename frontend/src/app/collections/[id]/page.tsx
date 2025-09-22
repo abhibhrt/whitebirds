@@ -17,33 +17,62 @@ import {
 import NotFound from "@/app/not-found";
 import api from "@/utils/axios";
 import { useAlert } from "@/components/Alert";
+import Image from "next/image";
 
-const ProductDetails = () => {
+interface Highlight {
+  id: number;
+  key: string;
+  value: string;
+}
+
+interface Review {
+  id: number;
+  rating: number;
+  comment: string;
+  user: string;
+}
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+  discount: number;
+  description: string;
+  stock: number;
+  images: { url: string }[];
+  reviews: Review[];
+  highlights?: Highlight[];
+  shipCharge: number;
+  delivery: number;
+  returnable: number;
+}
+
+const ProductDetails: React.FC = () => {
   const params = useParams<{ id: string }>();
   const productId = parseInt(params.id, 10);
-  const products = useSelector((state: any) => state.product.product) || [];
-  const product = products.find((p: any) => p.id === productId);
+  const products: Product[] = useSelector((state: any) => state.product.product) || [];
+  const product = products.find((p) => p.id === productId);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const { showAlert, AlertComponent } = useAlert();
 
   if (!product) return <NotFound />;
 
-  const discountedPrice = Math.round(
-    product.price - (product.price * product.discount) / 100
-  );
+  const discountedPrice = Math.round(product.price - (product.price * product.discount) / 100);
 
   const reviewCount = product.reviews.length;
   const averageRating =
     reviewCount > 0
-      ? product.reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / reviewCount
+      ? product.reviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount
       : 0;
 
   const handleImageChange = (index: number) => setSelectedImage(index);
-  const nextImage = () => setSelectedImage((prev) => (prev + 1) % product.images.length);
+  const nextImage = () =>
+    setSelectedImage((prev) => (prev + 1) % (product.images?.length || 1));
   const prevImage = () =>
-    setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length);
-  const increaseQuantity = () => setQuantity((prev) => Math.min(prev + 1, product.stock));
+    setSelectedImage((prev) => (prev - 1 + (product.images?.length || 1)) % (product.images?.length || 1));
+  const increaseQuantity = () =>
+    setQuantity((prev) => Math.min(prev + 1, product.stock));
   const decreaseQuantity = () => setQuantity((prev) => Math.max(prev - 1, 1));
 
   const addToCart = async () => {
@@ -58,24 +87,29 @@ const ProductDetails = () => {
   const buyNow = () => alert(`Proceeding to buy ${quantity} ${product.title}!`);
 
   return (
-    <div className="mx-auto p-4 pt-22 bg-primary text-primary">
+    <div className="mx-auto p-4 pt-24 bg-primary text-primary">
       <AlertComponent />
 
       <div className="text-sm text-secondary mb-6">
-        Home / Products / <span className="text-primary font-semibold">{product.title}</span>
+        Home / Products /{" "}
+        <span className="text-primary font-semibold">{product.title}</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Images */}
         <div className="relative">
           <div className="relative w-full h-auto rounded-lg overflow-hidden shadow-md bg-secondary">
-            <img
-              src={product.images[selectedImage]?.url}
-              alt={product.title}
-              className="w-full h-full object-cover transition-opacity duration-300"
-            />
+            {product.images?.[selectedImage]?.url && (
+              <Image
+                src={product.images[selectedImage].url}
+                alt={product.title}
+                width={500}
+                height={500}
+                className="w-full h-full object-cover transition-opacity duration-300"
+              />
+            )}
 
-            {product.images.length > 1 && (
+            {product.images && product.images.length > 1 && (
               <>
                 <button
                   onClick={prevImage}
@@ -103,9 +137,9 @@ const ProductDetails = () => {
             )}
           </div>
 
-          {product.images.length > 1 && (
+          {product.images && product.images.length > 1 && (
             <div className="flex mt-4 space-x-3 overflow-x-auto py-2">
-              {product.images.map((img: any, index: number) => (
+              {product.images.map((img, index) => (
                 <div
                   key={index}
                   className={`h-20 w-20 rounded-md overflow-hidden cursor-pointer border-2 transition-all ${
@@ -113,7 +147,13 @@ const ProductDetails = () => {
                   }`}
                   onClick={() => handleImageChange(index)}
                 >
-                  <img src={img.url} alt={`${product.title} view ${index + 1}`} className="w-full h-full object-cover" />
+                  <Image
+                    src={img.url}
+                    alt={`${product.title} view ${index + 1}`}
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               ))}
             </div>
@@ -217,7 +257,7 @@ const ProductDetails = () => {
             <div className="mt-6">
               <h3 className="font-semibold text-lg mb-3 text-primary">Product Highlights</h3>
               <ul className="space-y-2">
-                {product.highlights.map((h: any) => (
+                {product.highlights.map((h) => (
                   <li key={h.id} className="flex items-start">
                     <FiCheck className="text-success mt-1 mr-2 flex-shrink-0" />
                     <span className="text-primary">
