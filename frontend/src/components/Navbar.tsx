@@ -89,9 +89,6 @@ const Navbar = () => {
             }`}
           >
             <Link href="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
-                <span className="text-white font-bold text-lg">W</span>
-              </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 WhiteBirds
               </span>
